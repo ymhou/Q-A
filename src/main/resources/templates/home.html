@@ -1,0 +1,25 @@
+<html>
+<body>
+<pre>
+    $!{value1}
+
+    colors:$!{colors}
+
+    #foreach($color in $colors)
+        this is color $!{foreach.index}:$color, $!{foreach.count}
+    #end
+
+    #foreach($kv in $map.entrySet())
+        number:$kv.key, value:$kv.value
+    #end
+
+    User: $!{user.name}
+    $!{user.description}
+
+    #set($title = "this is my test")
+    Parse: #parse("head.html")
+</pre>
+
+</body>
+
+</html>
