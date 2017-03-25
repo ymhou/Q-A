@@ -24,7 +24,7 @@ public class IndexController {
 
     private static final Logger logger = LoggerFactory.getLogger(LogAspect.class);
 
-    @RequestMapping(path = {"/", "/index"})
+    @RequestMapping(path = {"/"})
     @ResponseBody
     public String index() {
         return "hello";
@@ -54,7 +54,7 @@ public class IndexController {
 
         model.addAttribute("map", map);
 
-        model.addAttribute("user", new User("houyiming"));
+
         return "home";
     }
 

@@ -1,24 +1,15 @@
 package com.ymhou.model;
 
+import lombok.Data;
+
 /**
  * Created by ymhou on 2017/3/24.
  */
+@Data
 public class User {
+    private int id;
     private String name;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public User(String name){
-        this.name = name;
-    }
-
-    public String getDescription(){
-        return "this is"+name;
-    }
+    private String password;
+    private String salt;
+    private String headUrl;
 }
