@@ -23,7 +23,7 @@ import java.util.List;
  */
 @Controller
 public class HomeController {
-    private static final Logger logger = LoggerFactory.getLogger(LogAspect.class);
+    private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
     @Autowired
     UserService userService;
@@ -44,7 +44,7 @@ public class HomeController {
         return vos;
     }
 
-    @RequestMapping(path = { "/index"}, method = {RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(path = { "/index","/"}, method = {RequestMethod.GET, RequestMethod.POST})
     public String index(Model model){
         model.addAttribute("vos",getQuestions(0,0,10));
         return "index";
