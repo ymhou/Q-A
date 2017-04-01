@@ -25,6 +25,10 @@ public class QuestionService {
         return questionDao.selectLatestQuestions(userId, offset, limit);
     }
 
+    public Question getById(int id){
+        return questionDao.selectById(id);
+    }
+
     public int addQuestion(Question question) {
         //html过滤
         question.setTitle(HtmlUtils.htmlEscape(question.getTitle()));
