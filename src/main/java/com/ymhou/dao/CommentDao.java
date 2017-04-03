@@ -10,7 +10,7 @@ import java.util.List;
  */
 @Mapper
 public interface CommentDao {
-    String TABLE_NAME = "comment";
+    String TABLE_NAME = " comment ";
     String INSERT_FIELDS = " user_id, content, created_date, entity_id, entity_type, status ";
     String SELECT_FIELDS = " id, " + INSERT_FIELDS;
 
