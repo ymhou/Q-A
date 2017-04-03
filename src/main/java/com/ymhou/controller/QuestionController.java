@@ -1,8 +1,9 @@
 package com.ymhou.controller;
 
-import com.ymhou.model.HostHolder;
-import com.ymhou.model.Question;
+import com.ymhou.model.*;
+import com.ymhou.service.CommentService;
 import com.ymhou.service.QuestionService;
+import com.ymhou.service.UserService;
 import com.ymhou.util.WendaUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,7 +12,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by ymhou on 2017/3/30.
@@ -25,6 +28,12 @@ public class QuestionController {
 
     @Autowired
     HostHolder hostHolder;
+
+    @Autowired
+    CommentService commentService;
+
+    @Autowired
+    UserService userService;
 
     @RequestMapping(value = "/question/add",method = RequestMethod.POST)
     @ResponseBody
@@ -56,6 +65,16 @@ public class QuestionController {
     public String questionDetail(Model model,@PathVariable("qid") int qid){
         Question question = questionService.getById(qid);
         model.addAttribute("question",question);
+        List<Comment> comments = commentService.getCommentsByEntity(qid, EntityType.ENTITY_QUESTION);
+        List<ViewObject> vos = new ArrayList<>();
+        for(Comment comment:comments){
+            ViewObject vo = new ViewObject();
+            vo.set("comment",comment);
+            vo.set("user", userService.getUser(comment.getUserId()));
+            vos.add(vo);
+        }
+        model.addAttribute("comments",vos);
+
         return "detail";
     }
 }

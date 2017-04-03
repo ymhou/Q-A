@@ -38,4 +38,8 @@ public class QuestionService {
         question.setContent(sensitiveService.filter(question.getContent()));
         return questionDao.addQuestion(question) > 0 ? question.getId() : 0;
     }
+
+    public int updateCommentCount(int id, int count){
+        return questionDao.updateCommentCount(id,count);
+    }
 }
