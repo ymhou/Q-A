@@ -25,12 +25,16 @@ public class MessageService {
         return messageDao.addMessage(message);
     }
 
-    public List<Message> getConversationDetail(String conversationId,int offset, int limit){
-        return messageDao.getConversationDetail(conversationId,offset,limit);
+    public List<Message> getConversationDetail(String conversationId, int offset, int limit) {
+        return messageDao.getConversationDetail(conversationId, offset, limit);
     }
 
-    public int getConversationUnreadCount(int userId,String conversationId){
-        return messageDao.getConversationUnreadCount(userId,conversationId);
+    public int getConversationUnreadCount(int userId, String conversationId) {
+        return messageDao.getConversationUnreadCount(userId, conversationId);
+    }
+
+    public List<Message> getConversationList(int userId, int offset, int limit) {
+        return messageDao.getConversationList(userId,offset,limit);
     }
 
 }
