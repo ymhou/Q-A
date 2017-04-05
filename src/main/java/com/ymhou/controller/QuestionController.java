@@ -2,6 +2,7 @@ package com.ymhou.controller;
 
 import com.ymhou.model.*;
 import com.ymhou.service.CommentService;
+import com.ymhou.service.LikeService;
 import com.ymhou.service.QuestionService;
 import com.ymhou.service.UserService;
 import com.ymhou.util.WendaUtil;
@@ -34,6 +35,9 @@ public class QuestionController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    LikeService likeService;
 
     @RequestMapping(value = "/question/add",method = RequestMethod.POST)
     @ResponseBody
@@ -71,6 +75,12 @@ public class QuestionController {
             ViewObject vo = new ViewObject();
             vo.set("comment",comment);
             vo.set("user", userService.getUser(comment.getUserId()));
+            if(hostHolder.getUser()==null){
+                vo.set("liked",0);
+            }else {
+                vo.set("liked",likeService.getLikeStatus(hostHolder.getUser().getId(),EntityType.ENTITY_COMMENT,comment.getId()));
+            }
+            vo.set("likeCount",likeService.likeCount(EntityType.ENTITY_COMMENT,comment.getId()));
             vos.add(vo);
         }
         model.addAttribute("comments",vos);
