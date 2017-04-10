@@ -1,5 +1,9 @@
 package com.ymhou.controller;
 
+import com.ymhou.async.EventHandler;
+import com.ymhou.async.EventModel;
+import com.ymhou.async.EventProducer;
+import com.ymhou.async.EventType;
 import com.ymhou.model.Comment;
 import com.ymhou.model.EntityType;
 import com.ymhou.model.HostHolder;
@@ -41,6 +45,9 @@ public class CommentController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    EventProducer eventProducer;
+
     @RequestMapping(path = "/addComment", method = RequestMethod.POST)
     public String addComment(@RequestParam("questionId") int questionId,
                              @RequestParam("content") String content) {
@@ -65,6 +72,9 @@ public class CommentController {
 
             int  count = commentService.getCommentCount(questionId,EntityType.ENTITY_QUESTION);
             questionService.updateCommentCount(questionId,count);
+
+            eventProducer.fireEvent(new EventModel(EventType.COMMENT).setActorId(comment.getUserId())
+                    .setEntityId(questionId));
 
 
         } catch (Exception e) {
