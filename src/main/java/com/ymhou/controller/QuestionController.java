@@ -1,5 +1,8 @@
 package com.ymhou.controller;
 
+import com.ymhou.async.EventModel;
+import com.ymhou.async.EventProducer;
+import com.ymhou.async.EventType;
 import com.ymhou.model.*;
 import com.ymhou.service.*;
 import com.ymhou.util.WendaUtil;
@@ -39,6 +42,9 @@ public class QuestionController {
     @Autowired
     FollowService followService;
 
+    @Autowired
+    EventProducer eventProducer;
+
     @RequestMapping(value = "/question/add", method = RequestMethod.POST)
     @ResponseBody
     public String addQuestion(@RequestParam("title") String title,
@@ -56,6 +62,10 @@ public class QuestionController {
             }
 
             if (questionService.addQuestion(question) > 0) {
+                //增加问题索引异步事件
+                eventProducer.fireEvent(new EventModel(EventType.ADD_QUESTION).setActorId(question.getUserId())
+                        .setEntityId(question.getId()).setExts("title",question.getTitle()).setExts("content",question.getContent()));
+
                 return WendaUtil.getJSONString(0);
             }
 
