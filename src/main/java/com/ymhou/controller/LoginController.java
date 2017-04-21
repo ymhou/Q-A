@@ -1,5 +1,8 @@
 package com.ymhou.controller;
 
+import com.ymhou.async.EventModel;
+import com.ymhou.async.EventProducer;
+import com.ymhou.async.EventType;
 import com.ymhou.service.UserService;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -25,6 +28,9 @@ public class LoginController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    EventProducer eventProducer;
 
     @RequestMapping(path = {"/reg"}, method = {RequestMethod.POST})
     public String reg(Model model,
@@ -68,8 +74,14 @@ public class LoginController {
                 Cookie cookie = new Cookie("ticket",map.get("ticket"));
                 cookie.setPath("/");
                 response.addCookie(cookie);
+
+                //发送邮件
+//                eventProducer.fireEvent(new EventModel(EventType.LOGIN)
+//                        .setExts("username",username)
+//                        .setExts("email","silencehym@163.com"));
+
                 if(StringUtils.isNotBlank(next)){
-                    return "/redirect:"+next;
+                    return "redirect:"+next;
                 }
                 return "redirect:/";
             }
@@ -79,7 +91,7 @@ public class LoginController {
             }
         }
         catch (Exception e){
-            logger.error("注册异常"+e.getMessage());
+            logger.error("登录异常"+e.getMessage());
             return "login";
         }
     }
@@ -91,9 +103,8 @@ public class LoginController {
     }
 
     @RequestMapping(path = {"/reglogin"}, method = {RequestMethod.GET})
-    public String reglogin(Model model,
-                           @RequestParam(value = "next",required = false) String next){
-        model.addAttribute("next",next);
+    public String regloginPage(Model model, @RequestParam(value = "next", required = false) String next) {
+        model.addAttribute("next", next);
         return "login";
     }
 }

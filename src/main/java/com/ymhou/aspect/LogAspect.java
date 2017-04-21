@@ -19,7 +19,7 @@ import java.util.Date;
 public class LogAspect {
     private static final Logger logger = LoggerFactory.getLogger(LogAspect.class);
 
-    @Before("execution(* com.ymhou.controller.*Controller.*(..))")
+    @Before("execution(* com.ymhou.controller.IndexController.*(..))")
     public void beforeMethod(JoinPoint joinPoint){
         StringBuffer sb = new StringBuffer();
         for(Object arg:joinPoint.getArgs()){
