@@ -156,9 +156,9 @@ public class SensitiveService implements InitializingBean{
         return !CharUtils.isAsciiAlphanumeric(c) && (ic < 0x2E80 || ic > 0x9FFF);
     }
 
-    public static void main(String[] argv) {
-        SensitiveService s = new SensitiveService();
-        s.addWord("色情");
-        System.out.println(s.filter("你好色@情"));
-    }
+//    public static void main(String[] argv) {
+//        SensitiveService s = new SensitiveService();
+//        s.addWord("色情");
+//        System.out.println(s.filter("你好色@情"));
+//    }
 }
